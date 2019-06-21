@@ -1,11 +1,12 @@
 # Minecraft Bedrock Server in Docker
 
-Run the official Minecraft [Bedrock dedicated server](https://minecraft.gamepedia.com/Bedrock_Dedicated_Server) in Docker.
+Run the official Minecraft [Bedrock dedicated server](https://minecraft.gamepedia.com/Bedrock_Dedicated_Server) in Docker, optionally syncing data to a mounted volume for persistence.
 
 
 ## Prerequisites
 
 - [Docker](https://www.docker.com/get-started)
+
 
 ## Arguments
 
@@ -17,14 +18,14 @@ Run the official Minecraft [Bedrock dedicated server](https://minecraft.gamepedi
 
 ## Instructions
 
-1. Pull the latest image from [Docker Hub](https://cloud.docker.com/u/iwhite/repository/docker/iwhite/minecraft-bedrock)
+1. **Pull the latest image from [Docker Hub](https://hub.docker.com/r/iwhite/minecraft-bedrock)**
 
 ```bash
 docker pull iwhite/minecraft-bedrock
 ```
 
 
-2. Create a container and start Bedrock server
+2. **Create a container and start Bedrock server**
 
 * Create a Bedrock server that accepts connections only over ipv4
 
@@ -50,7 +51,7 @@ docker run -dit -v /path/to/minecraft-bedrock:/data -p 19132:19132/tcp -p 19132:
 ```
 
 
-3. Connect to a running Bedrock server console
+3. **Connect to a running Bedrock server console**
 
 ```bash
 # Find running server container id
