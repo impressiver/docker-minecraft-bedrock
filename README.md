@@ -1,4 +1,4 @@
-# Minecraft Bedrock Server in Docker
+# Minecraft Bedrock Dedicated Server in Docker
 
 Run the official Minecraft [Bedrock dedicated server](https://minecraft.gamepedia.com/Bedrock_Dedicated_Server) in Docker, optionally syncing data to a mounted volume for persistence.
 
