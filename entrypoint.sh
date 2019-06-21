@@ -4,15 +4,14 @@
 # Bedrock Dedicated Server Entrypoint
 #
 # There are currently no flags or configuration settings to customize the
-# bedrock dedicated server data path, so this script handles syncing data to
-# the mounted volume for persistence.
+# bedrock dedicated server data paths, so this script handles syncing data to
+# the volume mounted at '/data' for persistence.
 #
 # At startup, files and directories that don't already exist on the mounted
-# volume are copied over. Then paths are replaced with symlinks to '/data' so
-# that modifications made while the server is running will be persisted.
-#
-# When the server or container is stopped, any newly generated files are also
-# persisted.
+# volume are copied over. Then paths in the default location are replaced with
+# symlinks to '/data' so that modifications made while the server is running
+# will be persisted on the mounted volume. Finally, when the server or
+# container is stopped, any newly generated files are also copied over.
 ##
 
 FILES=(
@@ -33,6 +32,7 @@ DIRS=(
   'worlds'
 )
 
+# handle docker stop signal by passing signal to server and then copying data
 function term_handler() {
   echo "Received SIGTERM"
   trap - SIGTERM
@@ -44,25 +44,35 @@ function term_handler() {
   exit 143 # SIGTERM
 }
 
-# copy server-generated files to data dir (that don't already exist)
+# copy server generated files to data dir (that don't already exist)
 function copy_data() {
   echo "Copying data to mount..."
+  # copy server files that don't exist on mount
   for file in ${FILES[*]}; do
-    [[ ! -f "/data/$file" && -f "/opt/bedrock-server/$file" ]] && cp "/opt/bedrock-server/$file" "/data/$file"
+    if [[ ! -f "/data/$file" && -f "/opt/bedrock-server/$file" ]]; then
+      echo "Copying bedrock-server/$file to /data"
+      cp "/opt/bedrock-server/$file" "/data/$file"
+    fi
   done
+  # copy server directories that don't exist on mount
   for dir in ${DIRS[*]}; do
-    [[ ! -d "/data/$dir" && -d "/opt/bedrock-server/$dir" ]] && cp -R "/opt/bedrock-server/$dir" "/data/$dir"
+    if [[ ! -d "/data/$dir" && -d "/opt/bedrock-server/$dir" ]]; then
+      echo "Copying bedrock-server/$dir to /data"
+      cp -r "/opt/bedrock-server/$dir" "/data/$dir"
+    fi
   done
   return 0
 }
 
-# replace server config dirs/files w/ symlinks to data dir (if they exist)
+# replace server config files/dirs w/ symlinks to data dir (if they exist)
+# this will overwrite any conflicting non-symlink paths in the server dir
 function link_data() {
   echo "Linking data from mount..."
   # link mounted config files
   for file in ${FILES[*]}; do
     if [[ -f "/data/$file" && ! -L "/opt/bedrock-server/$file" ]]; then
       [[ -f "/opt/bedrock-server/$file" ]] && rm "/opt/bedrock-server/$file"
+      echo "Linking bedrock-server/$file to /data/$file"
       ln -s "/data/$file" "/opt/bedrock-server/$file"
     fi
   done
@@ -70,13 +80,14 @@ function link_data() {
   for dir in ${DIRS[*]}; do
     if [[ -d "/data/$dir" && ! -L "/opt/bedrock-server/$dir" ]]; then
       [[ -d "/opt/bedrock-server/$dir" ]] && rm -r "/opt/bedrock-server/$dir"
+      echo "Linking bedrock-server/$dir to /data/$dir"
       ln -s "/data/$dir" "/opt/bedrock-server/$dir"
     fi
   done
   return 0
 }
 
-### Bedrock Minecraft Server Startup ###
+### Start Minecraft Bedrock Server ###
 
 # server process id
 pid=0
@@ -88,15 +99,14 @@ trap 'term_handler' SIGTERM
 copy_data
 link_data
 
-# start server and redirect stdin for console commands
+# start server and redirect stdin to console
 echo "Starting server..."
 "$@"<&0 &
 pid=$!
 
 # wait for server to exit
-while kill -0 "$pid" >/dev/null 2>&1; do
-  sleep 1
-done
+wait
 
 echo "Server stopped!"
+# copy files created during execution
 copy_data
