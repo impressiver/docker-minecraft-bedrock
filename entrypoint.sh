@@ -46,7 +46,7 @@ function term_handler() {
 
 # copy server generated files to data dir (that don't already exist)
 function copy_data() {
-  echo "Copying data to mount..."
+  echo 'Copying data to mount...'
   # copy server files that don't exist on mount
   for file in ${FILES[*]}; do
     if [[ ! -f "/data/$file" && -f "/opt/bedrock-server/$file" ]]; then
@@ -67,7 +67,7 @@ function copy_data() {
 # replace server config files/dirs w/ symlinks to data dir (if they exist)
 # this will overwrite any conflicting non-symlink paths in the server dir
 function link_data() {
-  echo "Linking data from mount..."
+  echo 'Linking data from mount...'
   # link mounted config files
   for file in ${FILES[*]}; do
     if [[ -f "/data/$file" && ! -L "/opt/bedrock-server/$file" ]]; then
