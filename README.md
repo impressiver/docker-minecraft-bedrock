@@ -12,7 +12,7 @@ Run the official Minecraft [Bedrock dedicated server](https://minecraft.gamepedi
 
 | Flag | Description | Default |
 | ---- | ----------- | ------- |
-| BEDROCK_VERSION | Specify [server version](https://minecraft.gamepedia.com/Bedrock_Dedicated_Server#History) | `1.12.1.1` |
+| BEDROCK_VERSION | Specify [server version](https://minecraft.gamepedia.com/Bedrock_Dedicated_Server#History) | `1.13.2.0` |
 | BEDROCK_DOWNLOAD_URL | Override download URL | "https://minecraft.azureedge.net/bin-linux/bedrock-server-${BEDROCK_VERSION}.zip" |
 
 
