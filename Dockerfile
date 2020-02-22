@@ -16,7 +16,8 @@ ENV LD_LIBRARY_PATH=/opt/bedrock-server
 
 # install system dependencies
 RUN apt-get -y update \
-  && apt-get install -y libterm-readline-gnu-perl curl unzip
+  && apt-get install -y curl unzip \
+  && apt-get clean
 
 # download and install minecraft server
 RUN curl $BEDROCK_DOWNLOAD_URL --output /tmp/bedrock-server.zip

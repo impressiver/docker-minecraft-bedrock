@@ -15,7 +15,6 @@
 ##
 
 FILES=(
-  'Debug_Log.txt'
   'permissions.json'
   'server.properties'
   'whitelist.json'
@@ -25,6 +24,7 @@ DIRS=(
   'definitions'
   'development_behavior_packs'
   'development_resource_packs'
+  'development_skin_packs'
   'resource_packs'
   'structures'
   'treatments'
@@ -46,7 +46,7 @@ function term_handler() {
 
 # copy server generated files to data dir (that don't already exist)
 function copy_data() {
-  echo 'Copying data to mount...'
+  echo 'Saving data to mount...'
   # copy server files that don't exist on mount
   for file in ${FILES[*]}; do
     if [[ ! -f "/data/$file" && -f "/opt/bedrock-server/$file" ]]; then

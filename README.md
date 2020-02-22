@@ -52,7 +52,7 @@ Data is then synced every time the container starts, and every time the server o
 This ensures files created or modified by the server are saved to the mounted volume and loaded again after restart.
 
 
-3. **Connect to the server console inside a running container**
+3. **Connect to the Minecraft server console inside a running container**
 
 ```bash
 # Find running server container id
