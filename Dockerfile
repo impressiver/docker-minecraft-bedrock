@@ -1,7 +1,7 @@
 FROM ubuntu
 LABEL maintainer="ian@impressiver.com"
 
-ARG BEDROCK_VERSION=1.14.60.5
+ARG BEDROCK_VERSION=1.17.10.04
 ARG BEDROCK_DOWNLOAD_URL="https://minecraft.azureedge.net/bin-linux/bedrock-server-${BEDROCK_VERSION}.zip"
 
 VOLUME ["/data"]

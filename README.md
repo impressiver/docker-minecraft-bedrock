@@ -12,13 +12,13 @@ Run the official [Minecraft Bedrock server](https://www.minecraft.net/en-us/down
 
 | Flag | Description | Default |
 | ---- | ----------- | ------- |
-| BEDROCK_VERSION | Specify [server version](https://minecraft.gamepedia.com/Bedrock_Dedicated_Server#History) | `1.14.60.5` |
+| BEDROCK_VERSION | Specify [server version](https://minecraft.gamepedia.com/Bedrock_Dedicated_Server#History) | `1.17.10.04` |
 | BEDROCK_DOWNLOAD_URL | Override download URL | "https://minecraft.azureedge.net/bin-linux/bedrock-server-${BEDROCK_VERSION}.zip" |
 
 
 ## Instructions
 
-1. **Pull the latest image from [Docker Hub](https://hub.docker.com/r/iwhite/minecraft-bedrock)**
+1. **Pull the latest Docker image from [Docker Hub](https://hub.docker.com/r/iwhite/minecraft-bedrock)**
 
 ```bash
 $ docker pull iwhite/minecraft-bedrock
