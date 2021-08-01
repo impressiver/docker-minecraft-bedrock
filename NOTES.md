@@ -28,6 +28,7 @@ Pushing commits/tags to GitHub will trigger [Docker Hub](https://hub.docker.com/
 - `docker login`
 - `docker push "iwhite/minecraft-bedrock:${BEDROCK_VERSION}"`
 - `docker push iwhite/minecraft-bedrock:latest`
+- Copy contents of `README.md` to update the Docker Hub repo [Readme](https://hub.docker.com/repository/docker/iwhite/minecraft-bedrock)
 
 ## Run locally
 
